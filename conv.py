@@ -3,7 +3,7 @@ import input_data
 import sys
 
 #"images"
-featurel=370
+featurel=371
 
 #parameters of the network
 numberlabels=2
@@ -15,7 +15,7 @@ lamb=0.0005 # regularization parameter
 #samples_per_T=250 # number of samples per temperature value
 #Nord=20 # number of temperatures in the ordered phase
 
-#reading the data in the directory txt 
+#reading the data in the directory txt
 mnist = input_data.read_data_sets(numberlabels,featurel,'txt', one_hot=True)
 
 print "reading sets ok"
@@ -34,14 +34,14 @@ def bias_variable(shape):
 # defining the layers
 def layers(x, W,b):
   return  tf.nn.relu(tf.matmul(x, W)+b)
-         
+
 
 # defining the model
 
 x = tf.placeholder("float", shape=[None, featurel])
 y_ = tf.placeholder("float", shape=[None, numberlabels])
 
-#first layer 
+#first layer
 #weights and bias
 W_1 = weight_variable([featurel,hiddenunits1])
 b_1 = bias_variable([hiddenunits1])
@@ -63,7 +63,7 @@ y_conv=tf.nn.softmax(tf.matmul(O1, W_2)+b_2 )
 bsize=50
 #cross_entropy = tf.reduce_mean(-y_*tf.log(tf.clip_by_value(y_conv,1e-10,1.0) )-(1.0-y_)*tf.log(tf.clip_by_value(1.0-y_conv,1e-10,1.0))) +(lamb)*(tf.nn.l2_loss(W_1)+tf.nn.l2_loss(W_2))
 
-cross_entropy = -tf.reduce_sum(y_*tf.log(tf.clip_by_value(y_conv,1e-10,1.0)))+(lamb)*(tf.nn.l2_loss(W_1)+tf.nn.l2_loss(W_2)) 
+cross_entropy = -tf.reduce_sum(y_*tf.log(tf.clip_by_value(y_conv,1e-10,1.0)))+(lamb)*(tf.nn.l2_loss(W_1)+tf.nn.l2_loss(W_2))
 
 
 #defining the optimizer
@@ -120,23 +120,23 @@ print "Model saved in file: ", save_path
 #for i in range(Ntemp):
 #  av=0.0
 #  for j in range(samples_per_T):
-#        batch=(mnist.test.images[ii,:].reshape((1,lx*lx)),mnist.test.labels[ii,:].reshape((1,numberlabels)))     
+#        batch=(mnist.test.images[ii,:].reshape((1,lx*lx)),mnist.test.labels[ii,:].reshape((1,numberlabels)))
 #        res=sess.run(y_conv,feed_dict={x: batch[0], y_: batch[1]})
-#        av=av+res 
+#        av=av+res
 #        #print ii, re
-         
-#        ii=ii+1 
+
+#        ii=ii+1
 #  av=av/samples_per_T
-#  f.write(str(i)+' '+str(av[0,0])+' '+str(av[0,1])+"\n")  
-#  #print i,av   
-#f.close()       
+#  f.write(str(i)+' '+str(av[0,0])+' '+str(av[0,1])+"\n")
+#  #print i,av
+#f.close()
 
 ## accuracy vs temperature
 #f = open('acc.dat', 'w')
 #for ii in range(Ntemp):
 #  batch=(mnist.test.images[ii*samples_per_T:ii*samples_per_T+samples_per_T,:].reshape(samples_per_T,lx*lx), mnist.test.labels[ii*samples_per_T:ii*samples_per_T+samples_per_T,:].reshape((samples_per_T,numberlabels)) )
 #  train_accuracy = sess.run(accuracy,feed_dict={
-#        x:batch[0], y_: batch[1]}) 
+#        x:batch[0], y_: batch[1]})
 #  f.write(str(ii)+' '+str(train_accuracy)+"\n") #
   #  print ii, train_accuracy
 
